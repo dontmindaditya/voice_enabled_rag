@@ -10,7 +10,7 @@ class LanceRetriever:
     def __init__(self, db_path: str = "./vector_db/msmarco.lancedb", table_name: str = "msmarco_chunks"):
         self.db = lancedb.connect(db_path)
         self.table = self.db.open_table(table_name)
-        self.embed_model = TextEmbedding(model_name="BAAI/bge-small-en-v1.5")
+        self.embed_model = TextEmbedding(model_name="BAAI/bge-small-en-v1.5", threads=1)
 
     def retrieve(self, query: str, top_k: int = 3) -> Dict[str, Any]:
         t0 = time.perf_counter()
