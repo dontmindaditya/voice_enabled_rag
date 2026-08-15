@@ -1,6 +1,8 @@
 import os
 from dotenv import load_dotenv
 load_dotenv()
+import datasets.config
+datasets.config.STREAMING_READ_MAX_RETRIES = 0
 from datasets import load_dataset
 from typing import List, Dict, Any
 

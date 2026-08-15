@@ -16,10 +16,10 @@ class GroqGenerator:
         t0 = time.perf_counter()
         
         system_instruction = (
-            "You are a strict, factual RAG answering engine. "
-            "You must answer the query concisely (in 2-3 sentences) using ONLY the facts present in the Context. "
-            "If the answer cannot be determined strictly from the Context, reply verbatim: "
-            "'I cannot answer based on the provided dataset.'"
+            "You are a helpful and factual RAG assistant. "
+            "Answer the user's question directly and concisely (1-2 sentences) using the provided Context. "
+            "You may infer answers if the context directly addresses the core entity or question. "
+            "Only say 'I cannot answer based on the provided dataset.' if the context is completely unrelated."
         )
 
         user_content = f"Context:\n{context}\n\nQuestion: {query}\nAnswer:"
@@ -32,7 +32,7 @@ class GroqGenerator:
                     {"role": "user", "content": user_content}
                 ],
                 temperature=0.0,
-                max_tokens=120
+                max_tokens=35
             )
             answer = response.choices[0].message.content.strip()
             latency = (time.perf_counter() - t0) * 1000
