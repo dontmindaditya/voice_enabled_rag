@@ -45,8 +45,8 @@ h1, h2, h3, h4, h5, h6, [data-testid="stMarkdownContainer"] h1, [data-testid="st
     color: #ffffff !important;
 }
 
-/* Custom CSS to style all buttons as black and white */
-button, [data-testid="stBaseButton-secondary"], [data-testid="stBaseButton-primary"] {
+/* Custom CSS to style standard Streamlit buttons as black and white */
+div[data-testid="stButton"] button[kind="primary"] {
     background-color: #ffffff !important;
     color: #000000 !important;
     border: 1px solid #ffffff !important;
@@ -57,24 +57,29 @@ button, [data-testid="stBaseButton-secondary"], [data-testid="stBaseButton-prima
     transition: all 0.2s ease-in-out !important;
 }
 
-button:hover, [data-testid="stBaseButton-secondary"]:hover, [data-testid="stBaseButton-primary"]:hover {
+div[data-testid="stButton"] button[kind="primary"]:hover {
     background-color: #000000 !important;
     color: #ffffff !important;
     border-color: #ffffff !important;
     box-shadow: 0 0 10px rgba(255, 255, 255, 0.15) !important;
 }
 
-/* Secondary Button styling overrides */
-div[data-testid="stButton"] button[type="secondary"] {
+div[data-testid="stButton"] button[kind="secondary"] {
     background-color: transparent !important;
     color: #ffffff !important;
     border: 1px solid #27272a !important;
+    border-radius: 6px !important;
+    padding: 0.5rem 1rem !important;
+    font-weight: 500 !important;
+    font-family: 'Outfit', sans-serif !important;
+    transition: all 0.2s ease-in-out !important;
 }
 
-div[data-testid="stButton"] button[type="secondary"]:hover {
+div[data-testid="stButton"] button[kind="secondary"]:hover {
     background-color: #ffffff !important;
     color: #000000 !important;
     border-color: #ffffff !important;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.15) !important;
 }
 
 /* Input Fields styling */
@@ -181,7 +186,7 @@ st.markdown(f"""
     <h1 style="margin: 0; margin-left: 12px; font-size: 2.2rem; font-weight: 700;">Low-Latency Voice RAG</h1>
 </div>
 """, unsafe_allow_html=True)
-st.markdown('<p style="color: #a1a1aa; font-size: 0.95rem; margin-top: 0rem; margin-bottom: 1.5rem;">HH Goa 2026 Shortlisting Task 2 — Target Latency: &lt; 200ms</p>', unsafe_allow_html=True)
+st.markdown('<p style="color: #a1a1aa; font-size: 0.95rem; margin-top: 0rem; margin-bottom: 1.5rem;">Target Latency: &lt; 200ms</p>', unsafe_allow_html=True)
 
 # Knowledge Base Information Card
 st.markdown(f"""
@@ -223,9 +228,9 @@ with col1:
     
     col_btn1, col_btn2 = st.columns(2)
     with col_btn1:
-        submit_btn = st.button("Run RAG Pipeline", use_container_width=True)
+        submit_btn = st.button("Run RAG Pipeline", use_container_width=True, type="primary")
     with col_btn2:
-        record_again_btn = st.button("Record Again", use_container_width=True)
+        record_again_btn = st.button("Record Again", use_container_width=True, type="secondary")
         if record_again_btn:
             st.session_state.run_id += 1
             st.rerun()
