@@ -62,3 +62,6 @@ class SarvamTranscriber:
                 "language": "en",
                 "latency_ms": round((time.perf_counter() - t0) * 1000, 2)
             }
+
+# Alias for backwards compatibility
+SarvamSTT = SarvamTranscriber
