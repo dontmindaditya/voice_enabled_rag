@@ -36,11 +36,21 @@ class LanceRetriever:
         # 2. In-process vector similarity search (<5ms)
         results = self.table.search(query_vector).limit(top_k).to_list()
         
+        # Check if the top result is a strong match (distance <= 0.65, i.e., similarity >= 0.35)
+        is_relevant = False
+        if results:
+            top_distance = results[0].get("_distance", 1.0)
+            if top_distance <= 0.65:
+                is_relevant = True
+                
         latency = (time.perf_counter() - t0) * 1000
         
-        context_chunks = [r["text"] for r in results]
-        combined_context = "\n---\n".join(context_chunks)
-        
+        if is_relevant:
+            context_chunks = [r["text"] for r in results]
+            combined_context = "\n---\n".join(context_chunks)
+        else:
+            combined_context = ""
+            
         return {
             "context": combined_context,
             "raw_results": results,
