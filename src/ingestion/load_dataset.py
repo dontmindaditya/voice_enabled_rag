@@ -56,6 +56,8 @@ def fetch_msmarco_passages(limit: int = 500) -> List[Dict[str, Any]]:
         {"q": "who is father of indian constitution", "text": "Dr. B. R. Ambedkar is recognized as the chief architect and Father of the Constitution of India."},
         {"q": "who is iron man of india sardar patel", "text": "Sardar Vallabhbhai Patel is known as the Iron Man of India and Bismarck of India for unifying 565 princely states into the Indian Union."},
         {"q": "what is capital of india", "text": "New Delhi is the official national capital of India and the seat of the Executive, Legislative, and Judiciary."},
+        {"q": "how many states and union territories in india number", "text": "India is a federal union comprising 28 states and 8 Union Territories."},
+        {"q": "what is national language of india official", "text": "India has no official national language, but Hindi and English are the two official working languages of the Government of India."},
 
         # =========================================================================
         # 5. ALL 28 STATES (CAPITALS & OFFICIAL LANGUAGES)

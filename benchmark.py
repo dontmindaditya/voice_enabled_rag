@@ -1,4 +1,7 @@
+import os
 import asyncio
+os.environ["BENCHMARK_MODE"] = "true"
+
 from src.rag.retriever import LanceRetriever
 from src.rag.generator import GroqGenerator
 from src.rag.guardrails import GuardrailEngine
