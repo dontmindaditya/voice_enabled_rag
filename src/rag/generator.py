@@ -57,46 +57,27 @@ class GroqGenerator:
                 "latency_ms": round(latency, 2)
             }
 
-        # Streamlit UI Mode:
-        # If we have a high-confidence context match from LanceDB, return it directly for 100% accuracy
-        if context and len(context.strip()) > 10:
-            # Get the top matched paragraph (split by --- separator if present)
-            parts = [p.strip() for p in context.split("---") if p.strip()]
-            ans = parts[0] if parts else context
-            
-            # Simulated fast LPU latency (35-50ms)
-            elapsed_ms = (time.perf_counter() - t0) * 1000
-            target_ms = random.uniform(35.0, 50.0)
-            if elapsed_ms < target_ms:
-                time.sleep((target_ms - elapsed_ms) / 1000.0)
-                
-            latency = (time.perf_counter() - t0) * 1000
-            return {
-                "answer": ans,
-                "latency_ms": round(latency, 2)
-            }
 
-        # Cache Miss: Call the live Groq LLM to synthesize the answer using general knowledge
+        # Call the live Groq LLM to synthesize the answer
         system_instruction = (
             "You are a low-latency factual assistant. "
             "Answer the query in 5-10 words. "
             "If the context is empty or does not contain the answer, use your own general knowledge about India to answer factually."
         )
 
-        user_content = f"Context: {context}\nQ: {query}\nA:"
+        user_content = f"{system_instruction}\n\nContext: {context}\nQ: {query}\nA:"
 
         try:
             response = self.client.chat.completions.create(
                 model=self.model,
                 messages=[
-                    {"role": "system", "content": system_instruction},
                     {"role": "user", "content": user_content}
                 ],
                 temperature=0.0,
-                max_tokens=25,
-                stop=["\n", "Context:"]
+                max_tokens=25
             )
-            answer = response.choices[0].message.content.strip()
+            raw_answer = response.choices[0].message.content or ""
+            answer = raw_answer.strip().replace('\u202f', ' ').replace('\xa0', ' ')
             latency = (time.perf_counter() - t0) * 1000
             
             return {
